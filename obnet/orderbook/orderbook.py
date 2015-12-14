@@ -17,7 +17,7 @@ def TickerBuy( ticker ):
     return buy
 
 def TickerSell( ticker ):
-    "Show the Buy contracts and its prices"
+    "Show the Sell contracts and its prices"
 
     url="https://api.icbit.se/api/orders/book?ticker=" + ticker
     data= requests.get(url).json()
