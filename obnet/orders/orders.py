@@ -14,6 +14,9 @@ def OrdersAll( api_key, api_secret, user_id):
     data= requests.get(url).json()
     return data
 
+def _extract_order_field(data, field):
+    return { d['oid']: d[field] for d in data }
+
 def OrderStatus( api_key, api_secret, user_id, oid):
     nonce = str(int(round(time.time() * 1000)))
     message = nonce + user_id + api_key
@@ -21,7 +24,7 @@ def OrderStatus( api_key, api_secret, user_id, oid):
 
     url="https://api.icbit.se/api/orders/all?key=" + api_key + "&signature=" + signature + "&nonce=" + nonce 
     data= requests.get(url).json()
-    return data
+    return _extract_order_field(data, 'status')[oid]
 
 def OrderToken( api_key, api_secret, user_id, oid):
     nonce = str(int(round(time.time() * 1000)))
@@ -30,7 +33,7 @@ def OrderToken( api_key, api_secret, user_id, oid):
 
     url="https://api.icbit.se/api/orders/all?key=" + api_key + "&signature=" + signature + "&nonce=" + nonce 
     data= requests.get(url).json()
-    return data
+    return _extract_order_field(data, 'token')[oid]
 
 def OrderPrice( api_key, api_secret, user_id, oid):
     nonce = str(int(round(time.time() * 1000)))
@@ -39,7 +42,7 @@ def OrderPrice( api_key, api_secret, user_id, oid):
 
     url="https://api.icbit.se/api/orders/all?key=" + api_key + "&signature=" + signature + "&nonce=" + nonce 
     data= requests.get(url).json()
-    return data
+    return _extract_order_field(data, 'price')[oid]
 
 def OrderTicker( api_key, api_secret, user_id, oid):
     nonce = str(int(round(time.time() * 1000)))
@@ -48,4 +51,4 @@ def OrderTicker( api_key, api_secret, user_id, oid):
 
     url="https://api.icbit.se/api/orders/all?key=" + api_key + "&signature=" + signature + "&nonce=" + nonce 
     data= requests.get(url).json()
-    return data
+    return _extract_order_field(data, 'ticker')[oid]
